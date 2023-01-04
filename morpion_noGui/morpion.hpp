@@ -2,6 +2,7 @@
 #include <string>
 
 using std::cout;
+using std::cin;
 using std::string;
 
 void afficher(string** mat);

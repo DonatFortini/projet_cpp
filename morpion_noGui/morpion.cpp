@@ -62,6 +62,22 @@ bool verif_colonne(string** mat,string sym)
 void jeu()
 {
 	bool j=true;
+	bool j1=false;
+	int choix;
+	
+	if(rand()%2==0){
+		j1=true;
+	}
+	
+	if (j1)
+	{
+		cout<<"premier a jouer (X)";
+	}
+	else{
+		cout<<"second a jouer (O)";
+	}
+	
+
 	while (j)
 	{
 		
