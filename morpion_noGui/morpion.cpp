@@ -59,28 +59,65 @@ bool verif_colonne(string** mat,string sym)
 	:(mat[0][2]==sym && mat[1][2]==sym && mat[2][2]==sym) ? true:false;
 }
 
+bool verif_all(string** mat,string sym)
+{
+	return verif_colonne(mat,sym)||verif_ligne(mat,sym)||verif_diag(mat,sym);
+}
+
+void move_com(string** mat,string sym)
+{
+	int randx,randy;
+	do
+	{
+		randx=rand()%3;
+		randy=rand()%3;
+	} while (!inserer(mat,randx,randy,sym));
+	
+}
+
+void gagnant(int W)
+{
+	(W==1)?cout<<"vous avez gagné\n":cout<<"l'ordi a gagné\n";
+}
+
 void jeu()
 {
-	bool j=true;
-	bool j1=false;
-	int choix;
+	bool j=true,j1=false;
+	int posx,posy;
+	string** mat=init();
 	
-	if(rand()%2==0){
+	if(rand()%2==1){
 		j1=true;
 	}
 	
-	if (j1)
-	{
-		cout<<"premier a jouer (X)";
-	}
-	else{
-		cout<<"second a jouer (O)";
-	}
+	(j1) ? cout<<"premier a jouer (X)\n":cout<<"second a jouer (O)\n";
 	
-
 	while (j)
 	{
-		
-	}
+		if(j1){
 	
+			cout<<"choissez une case (x,y)\n";
+			cin>>posx>>posy;
+			inserer(mat,posx,posy,"X");
+			verif_all(mat,"X")?j=false,gagnant(1):move_com(mat,"O");
+			verif_all(mat,"O")?j=false,gagnant(0):afficher(mat);
+		}
+		else{
+			move_com(mat,"X");
+			afficher(mat);
+			if (!verif_all(mat,"X"))
+			{
+				cout<<"choissez une case (x,y)\n";
+				cin>>posx>>posy;
+				inserer(mat,posx,posy,"O");
+				verif_all(mat,"O")?j=false,gagnant(1):afficher(mat);;
+			}
+			else
+			{
+				gagnant(0);
+				j=false;
+			}
+		}
+	}
+	free(mat);
 }

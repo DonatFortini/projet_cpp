@@ -12,3 +12,6 @@ bool verif_diag(string** mat,string sym);
 bool verif_colonne(string** mat,string sym);
 bool verif_ligne(string** mat,string sym);
 void jeu();
+bool verif_all(string** mat,string sym);
+void gagnant(int W);
+void move_com(string** mat,string sym);
