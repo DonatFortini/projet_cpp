@@ -75,6 +75,7 @@ void move_com(string** mat,string sym)
 	
 }
 
+
 void gagnant(int W)
 {
 	(W==1)?cout<<"vous avez gagné\n":cout<<"l'ordi a gagné\n";
@@ -86,7 +87,7 @@ void jeu()
 	int posx,posy;
 	string** mat=init();
 	
-	if(rand()%2==1){
+	if(rand()%3==1){
 		j1=true;
 	}
 	
@@ -112,11 +113,7 @@ void jeu()
 				inserer(mat,posx,posy,"O");
 				verif_all(mat,"O")?j=false,gagnant(1):afficher(mat);;
 			}
-			else
-			{
-				gagnant(0);
-				j=false;
-			}
+			else gagnant(0),j=false;
 		}
 	}
 	free(mat);
