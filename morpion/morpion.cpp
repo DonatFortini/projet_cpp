@@ -84,8 +84,7 @@ void jeu()
 	{
 		if(j1){
 	
-			cout<<"choissez une case (x,y)\n";
-			cin>>posx>>posy;
+			//on recupe l'info du bouton 
 			inserer(mat,posx,posy,"X");
 			verif_all(mat,"X")?j=false,gagnant(1):move_com(mat,"O");
 			verif_all(mat,"O")?j=false,gagnant(0):afficher(mat);
@@ -95,8 +94,7 @@ void jeu()
 			afficher(mat);
 			if (!verif_all(mat,"X"))
 			{
-				cout<<"choissez une case (x,y)\n";
-				cin>>posx>>posy;
+				//on recupe l'info du bouton 
 				inserer(mat,posx,posy,"O");
 				verif_all(mat,"O")?j=false,gagnant(1):afficher(mat);;
 			}
