@@ -1,0 +1,40 @@
+{
+    "configurations": [
+        {
+            "name": "Linux",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "/usr/include/gtk-3.0",
+                "/usr/include/glib-2.0",
+                "/usr/lib/x86_64-linux-gnu/glib-2.0/include",
+                "/usr/include/c++/11",
+                "/usr/include/x86_64-linux-gnu/c++/11"
+            ],
+            "defines": [],
+            "compilerPath": "/usr/bin/clang",
+            "cStandard": "c17",
+            "cppStandard": "c++14",
+            "intelliSenseMode": "linux-clang-x64"
+        },
+        {
+            "name": "GNU",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "/usr/lib/x86_64-linux-gnu/glib-2.0/include",
+                "/usr/include/gtk-3.0",
+                "/usr/include/glib-2.0",
+                "/usr/include/pango-1.0",
+                "/usr/include/harfbuzz",
+                "/usr/include/cairo",
+                "/usr/include/gdk-pixbuf-2.0",
+                "/usr/include/atk-1.0"
+            ],
+            "defines": [],
+            "compilerPath": "/usr/bin/g++-11",
+            "cStandard": "c17",
+            "cppStandard": "c++14",
+            "intelliSenseMode": "windows-gcc-x64"
+        }
+    ],
+    "version": 4
+}
