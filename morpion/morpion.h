@@ -12,7 +12,7 @@ public:
 
 protected:
     void on_click(void);
-
+    Gtk::Button grid[9];
     Gtk::Button m_button;
 };
 
