@@ -18,7 +18,7 @@ int main(int argc, char *argv[]) {
     // Create nine buttons and add them to the grid
     for (int row = 0; row < 3; row++) {
         for (int col = 0; col < 3; col++) {
-            GdkPixbuf* pixbuf = gdk_pixbuf_new_from_file("image/O.jpeg", NULL);
+            GdkPixbuf* pixbuf = gdk_pixbuf_new_from_file("image/blank.png", NULL);
             GtkWidget* image = gtk_image_new_from_pixbuf(pixbuf);
             GtkWidget *button = gtk_button_new();
             gtk_button_set_image(GTK_BUTTON(button),image);
