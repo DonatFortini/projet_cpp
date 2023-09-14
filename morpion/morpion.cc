@@ -1,54 +1,45 @@
 #include "morpion.h"
 #include <iostream>
 
-Morpion::Morpion() : tl("top left"), tm("top middle"), tr("top right"),
-                     ml("middle left"), mm("middle middle"), mr("middle right"),
-                     bl("bottom left"), bm("bottom middle"), br("bottom right")
+Morpion::Morpion(void):tl("top left"),ml("middle left")
 {
     set_border_width(10);
     set_title("morpion");
-    //faire des grid au final 
+    grid.set_hexpand(true);
+    grid.set_vexpand(true);
+    grid.set_row_homogeneous(true);
+    grid.set_column_homogeneous(true);
+    // faire des grid au final
 
     add(grid);
 
-    row1.set_orientation(Gtk::ORIENTATION_VERTICAL);
-    row2.set_orientation(Gtk::ORIENTATION_VERTICAL);
-    row3.set_orientation(Gtk::ORIENTATION_VERTICAL);
+    casesSetup(tl, 0, 0);
+    casesSetup(tm, 0, 1);
+    casesSetup(tr, 0, 2);
 
-    grid.pack_start(row1);
-    grid.pack_start(row2);
-    grid.pack_start(row3);
+    casesSetup(ml, 1, 0);
+    casesSetup(mm, 1, 1);
+    casesSetup(mr, 1, 2);
 
-    casesSetup(tl,row1);
-    casesSetup(ml,row1);
-    casesSetup(bl,row1);
-    
-    casesSetup(tm,row2);
-    casesSetup(mm,row2);
-    casesSetup(bm,row2);
-    
-    casesSetup(tr,row3);
-    casesSetup(mr,row3);
-    casesSetup(br,row3);
+    casesSetup(bl, 2, 0);
+    casesSetup(bm, 2, 1);
+    casesSetup(br, 2, 2);
 
-    row1.show();
-    row2.show();
-    row3.show();
     grid.show();
 }
 
-Morpion::~Morpion()
+Morpion::~Morpion(void)
 {
 }
 
 void Morpion::on_click(void)
 {
-    std::cout << "test 1\n";
+    std::cout << this->get_name() <<"\n";
 }
 
-void Morpion::casesSetup(Gtk::Button &but , Gtk::Box &grid)
+void Morpion::casesSetup(Gtk::Button &but, int posx, int posy)
 {
     but.signal_clicked().connect(sigc::mem_fun(*this, &Morpion::on_click));
-    grid.pack_start(but);
+    grid.attach(but, posx, posy);
     but.show();
 }

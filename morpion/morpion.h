@@ -3,25 +3,21 @@
 
 #include <gtkmm/button.h>
 #include <gtkmm/window.h>
-#include <gtkmm/box.h>
+#include <gtkmm/grid.h>
 #include <string.h>
 
-
-
-class Morpion : public Gtk::Window 
+class Morpion : public Gtk::Window
 {
 public:
-    Morpion(/* args */);
-    virtual ~Morpion();
-    
+    Morpion(void);
+    virtual ~Morpion(void);
+
 protected:
     void on_click(void);
     Gtk::Button tl, tm, tr, ml, mm, mr, bl, bm, br;
-    Gtk::Box grid;
-    Gtk::Box row1;
-    Gtk::Box row2;
-    Gtk::Box row3;
-    void casesSetup(Gtk::Button &but , Gtk::Box &grid);
+    Gtk::Grid grid;
+
+    void casesSetup(Gtk::Button &but, int posx, int posy);
 };
 
 #endif
