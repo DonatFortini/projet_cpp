@@ -1,7 +1,7 @@
 #include "morpion.h"
 #include <iostream>
 
-Morpion::Morpion(void) 
+Morpion::Morpion(void)
 {
     set_border_width(10);
     set_title("morpion");
@@ -31,16 +31,91 @@ Morpion::~Morpion(void)
 {
 }
 
-void Morpion::on_click(Gtk::Button x)
+void Morpion::on_click(int posx, int posy)
 {
-    
+    if (board[posy][posx] == -1)
+    {
+        Gtk::Button *button = dynamic_cast<Gtk::Button *>(grid.get_child_at(posx, posy));
+        Gtk::Image *pmap = Gtk::make_managed<Gtk::Image>("./image/X.png");
+        button->set_image(*pmap);
+        board[posy][posx] = 1;
+        comMove();
+        if(isWinning(0)) finish(0);
+        if(isWinning(1)) finish(1);
+    }
 }
 
 void Morpion::casesSetup(Gtk::Button &but, int posx, int posy)
 {
-    but.signal_clicked().connect(sigc::mem_fun(*this, &Morpion::on_click));
-    auto pmap = Gtk::make_managed<Gtk::Image>("./image/Empty.png");
+    but.signal_clicked().connect([=]()
+                                 { on_click(posx, posy); });
+    Gtk::Image *pmap = Gtk::make_managed<Gtk::Image>("./image/Empty.png");
     but.set_image(*pmap);
     grid.attach(but, posx, posy);
     but.show();
+}
+
+bool Morpion::verifRow(int val)
+{
+    for (int i = 0; i < 3; ++i)
+        if (board[i][0] == val && board[i][1] == val && board[i][2] == val)
+            return true;
+    return false;
+}
+
+bool Morpion::verifCol(int val)
+{
+    for (int i = 0; i < 3; ++i)
+        if (board[0][i] == val && board[1][i] == val && board[2][i] == val)
+            return true;
+    return false;
+}
+
+bool Morpion::verifDiag(int val)
+{
+    return (board[0][0] == val && board[1][1] == val && board[2][2] == val) || (board[0][2] == val && board[1][1] == val && board[2][0] == val);
+}
+
+bool Morpion::isWinning(int val)
+{
+    return verifCol(val) || verifRow(val) || verifDiag(val);
+}
+
+void Morpion::finish(int val)
+{
+    Gtk::MessageDialog dialog("Joueur "+std::to_string(val)+" à gagner" , false, Gtk::MESSAGE_INFO, Gtk::BUTTONS_OK);
+    int result = dialog.run();
+    Gtk::Main::quit();
+}
+
+void Morpion::printBoard()
+{
+    for (int(&row)[3] : board)
+    {
+        for (int &element : row)
+            std::cout << element << " ";
+        std::cout << std::endl;
+    }
+}
+
+bool Morpion::comMove()
+{
+    std::vector<std::pair<int, int>> emptyCells;
+    for (int x = 0; x < 3; ++x)
+        for (int y = 0; y < 3; ++y)
+            if (board[x][y] == -1)
+                emptyCells.emplace_back(x, y);
+
+    if (!emptyCells.empty())
+    {
+        std::random_shuffle(emptyCells.begin(), emptyCells.end());
+        int x = emptyCells[0].first;
+        int y = emptyCells[0].second;
+        board[x][y] = 0;
+        Gtk::Button *button = dynamic_cast<Gtk::Button *>(grid.get_child_at(y, x));
+        Gtk::Image *pmap = Gtk::make_managed<Gtk::Image>("./image/O.png");
+        button->set_image(*pmap);
+        return true;
+    }
+    return false;
 }

@@ -5,8 +5,10 @@
 #include <gtkmm/window.h>
 #include <gtkmm/grid.h>
 #include <gtkmm/image.h>
-#include <string.h>
+#include <gtkmm.h>
 
+#include <string.h>
+#include <cstdlib> 
 
 class Morpion : public Gtk::Window
 {
@@ -15,11 +17,18 @@ public:
     virtual ~Morpion(void);
 
 protected:
-    void on_click(Gtk::Button x);
+    void on_click(int posx, int posy);
+    void casesSetup(Gtk::Button &but, int posx, int posy);
+    bool verifRow(int val);
+    bool verifCol(int val);
+    bool verifDiag(int val);
+    bool isWinning(int val);
+    void finish(int val);
+    void printBoard();
+    bool comMove();
     Gtk::Button tl, tm, tr, ml, mm, mr, bl, bm, br;
     Gtk::Grid grid;
-
-    void casesSetup(Gtk::Button &but, int posx, int posy);
+    int board[3][3] = {{-1, -1, -1}, {-1, -1, -1}, {-1, -1, -1}};
 };
 
 #endif
