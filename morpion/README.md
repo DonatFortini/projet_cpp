@@ -2,3 +2,4 @@
 
 sudo apt install build-essential libgtkmm-3.0-dev -y
 ./build.sh pour compiler et run
+ou juste ./main
