@@ -1,7 +1,7 @@
 #include "morpion.h"
 #include <iostream>
 
-Morpion::Morpion(void):tl("top left"),ml("middle left")
+Morpion::Morpion(void) 
 {
     set_border_width(10);
     set_title("morpion");
@@ -9,7 +9,6 @@ Morpion::Morpion(void):tl("top left"),ml("middle left")
     grid.set_vexpand(true);
     grid.set_row_homogeneous(true);
     grid.set_column_homogeneous(true);
-    // faire des grid au final
 
     add(grid);
 
@@ -32,14 +31,16 @@ Morpion::~Morpion(void)
 {
 }
 
-void Morpion::on_click(void)
+void Morpion::on_click(Gtk::Button x)
 {
-    std::cout << this->get_name() <<"\n";
+    
 }
 
 void Morpion::casesSetup(Gtk::Button &but, int posx, int posy)
 {
     but.signal_clicked().connect(sigc::mem_fun(*this, &Morpion::on_click));
+    auto pmap = Gtk::make_managed<Gtk::Image>("./image/Empty.png");
+    but.set_image(*pmap);
     grid.attach(but, posx, posy);
     but.show();
 }
