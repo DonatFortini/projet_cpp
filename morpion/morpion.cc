@@ -35,13 +35,10 @@ void Morpion::on_click(int posx, int posy)
 {
     if (board[posy][posx] == -1)
     {
-        Gtk::Button *button = dynamic_cast<Gtk::Button *>(grid.get_child_at(posx, posy));
-        Gtk::Image *pmap = Gtk::make_managed<Gtk::Image>("./image/X.png");
-        button->set_image(*pmap);
-        board[posy][posx] = 1;
+        play(posy, posx, "./image/X.png", 1);
+        if (isWinning(1))
+            finish(1);
         comMove();
-        if(isWinning(0)) finish(0);
-        if(isWinning(1)) finish(1);
     }
 }
 
@@ -83,7 +80,7 @@ bool Morpion::isWinning(int val)
 
 void Morpion::finish(int val)
 {
-    Gtk::MessageDialog dialog("Joueur "+std::to_string(val)+" à gagner" , false, Gtk::MESSAGE_INFO, Gtk::BUTTONS_OK);
+    Gtk::MessageDialog dialog("Joueur " + std::to_string(val) + " à gagner", false, Gtk::MESSAGE_INFO, Gtk::BUTTONS_OK);
     int result = dialog.run();
     Gtk::Main::quit();
 }
@@ -109,13 +106,18 @@ bool Morpion::comMove()
     if (!emptyCells.empty())
     {
         std::random_shuffle(emptyCells.begin(), emptyCells.end());
-        int x = emptyCells[0].first;
-        int y = emptyCells[0].second;
-        board[x][y] = 0;
-        Gtk::Button *button = dynamic_cast<Gtk::Button *>(grid.get_child_at(y, x));
-        Gtk::Image *pmap = Gtk::make_managed<Gtk::Image>("./image/O.png");
-        button->set_image(*pmap);
+        play(emptyCells[0].first, emptyCells[0].second, "./image/O.png", 0);
+        if (isWinning(0))
+            finish(0);
         return true;
     }
     return false;
+}
+
+void Morpion::play(int x, int y, std::string path, int player)
+{
+    board[x][y] = player;
+    Gtk::Button *button = dynamic_cast<Gtk::Button *>(grid.get_child_at(y, x));
+    Gtk::Image *pmap = Gtk::make_managed<Gtk::Image>(path);
+    button->set_image(*pmap);
 }

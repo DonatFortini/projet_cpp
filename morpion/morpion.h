@@ -26,6 +26,7 @@ protected:
     void finish(int val);
     void printBoard();
     bool comMove();
+    void play(int x, int y, std::string path,int player);
     Gtk::Button tl, tm, tr, ml, mm, mr, bl, bm, br;
     Gtk::Grid grid;
     int board[3][3] = {{-1, -1, -1}, {-1, -1, -1}, {-1, -1, -1}};
