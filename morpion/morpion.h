@@ -8,7 +8,7 @@
 #include <gtkmm.h>
 
 #include <string.h>
-#include <cstdlib> 
+#include <cstdlib>
 
 class Morpion : public Gtk::Window
 {
@@ -23,12 +23,14 @@ protected:
     bool verifCol(int val);
     bool verifDiag(int val);
     bool isWinning(int val);
+    void fullBoard();
     void finish(int val);
     void printBoard();
-    bool comMove();
-    void play(int x, int y, std::string path,int player);
+    void comMove();
+    void play(int x, int y, std::string path, int player);
     Gtk::Button tl, tm, tr, ml, mm, mr, bl, bm, br;
     Gtk::Grid grid;
+    bool J1;
     int board[3][3] = {{-1, -1, -1}, {-1, -1, -1}, {-1, -1, -1}};
 };
 

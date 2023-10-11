@@ -3,6 +3,7 @@
 
 Morpion::Morpion(void)
 {
+    srand(time(0));
     set_border_width(10);
     set_title("morpion");
     grid.set_hexpand(true);
@@ -25,6 +26,13 @@ Morpion::Morpion(void)
     casesSetup(br, 2, 2);
 
     grid.show();
+
+    int rands = rand() % 2;
+    J1 = (rands == 1) ? true : false;
+    Gtk::MessageDialog dialog((J1) ? "vous commencer premier! X" : "vous commencer deuxiemme 0", false, Gtk::MESSAGE_INFO, Gtk::BUTTONS_OK);
+    dialog.run();
+    if (!J1)
+        comMove();
 }
 
 Morpion::~Morpion(void)
@@ -33,11 +41,13 @@ Morpion::~Morpion(void)
 
 void Morpion::on_click(int posx, int posy)
 {
+    int val = J1;
     if (board[posy][posx] == -1)
     {
-        play(posy, posx, "./image/X.png", 1);
-        if (isWinning(1))
-            finish(1);
+        play(posy, posx, (J1) ? "./image/X.png" : "./image/O.png", val);
+        fullBoard();
+        if (isWinning(val))
+            finish(val);
         comMove();
     }
 }
@@ -78,6 +88,24 @@ bool Morpion::isWinning(int val)
     return verifCol(val) || verifRow(val) || verifDiag(val);
 }
 
+void Morpion::fullBoard()
+{
+    bool full = true;
+    for (int(&row)[3] : board)
+        for (int &element : row)
+            if (element == -1)
+                full = false;
+    if (full)
+    {
+        if (!isWinning(0) && !isWinning(1))
+        {
+            Gtk::MessageDialog dialog("ex-aequo", false, Gtk::MESSAGE_INFO, Gtk::BUTTONS_OK);
+            int result = dialog.run();
+            Gtk::Main::quit();
+        }
+    }
+}
+
 void Morpion::finish(int val)
 {
     Gtk::MessageDialog dialog("Joueur " + std::to_string(val) + " à gagner", false, Gtk::MESSAGE_INFO, Gtk::BUTTONS_OK);
@@ -95,7 +123,7 @@ void Morpion::printBoard()
     }
 }
 
-bool Morpion::comMove()
+void Morpion::comMove()
 {
     std::vector<std::pair<int, int>> emptyCells;
     for (int x = 0; x < 3; ++x)
@@ -105,13 +133,13 @@ bool Morpion::comMove()
 
     if (!emptyCells.empty())
     {
+        int val = !J1;
         std::random_shuffle(emptyCells.begin(), emptyCells.end());
-        play(emptyCells[0].first, emptyCells[0].second, "./image/O.png", 0);
-        if (isWinning(0))
-            finish(0);
-        return true;
+        play(emptyCells[0].first, emptyCells[0].second, (J1) ? "./image/O.png" : "./image/X.png", val);
+        fullBoard();
+        if (isWinning(val))
+            finish(val);
     }
-    return false;
 }
 
 void Morpion::play(int x, int y, std::string path, int player)
